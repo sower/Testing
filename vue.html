@@ -1,0 +1,35 @@
+<html>
+
+<head>
+    <title>VueJs HelloWorld</title>
+    <script type = "text/javascript" src = "vue.js"></script>
+</head>
+
+<body>
+
+
+
+<div id="app">
+    <label for="r1">修改颜色</label><input type="checkbox" v-model="use" id="r1">
+    <br><br>
+    <div v-bind:class="{'class1': use}">
+        v-bind:class 指令
+    </div>
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            use: false
+        }
+    });
+</script>
+
+
+
+
+
+</body>
+
+</html>
