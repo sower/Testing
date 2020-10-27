@@ -1,6 +1,4 @@
 # Git Testing
 
-
-#目录
-
+## This is a testing repository
 
