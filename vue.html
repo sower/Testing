@@ -10,18 +10,36 @@
 
 
 <div id="app">
-    <label for="r1">修改颜色</label><input type="checkbox" v-model="use" id="r1">
-    <br><br>
-    <div v-bind:class="{'class1': use}">
-        v-bind:class 指令
-    </div>
+<input type="text" v-model='tmp' @keyup.enter='add'>
+<input type="button" value="add" @click='add' autocomplete="off">
+<input type="button" value="subtract" @click='subtract'>
+<input type="button" value="hide" @click='hide'>
+<ul v-if='show'>
+    <li v-for="(item,index) in content">
+        {{index+1}} - {{item}}
+    </li>
+</ul>
 </div>
 
 <script>
     new Vue({
         el: '#app',
         data: {
-            use: false
+            content:['a','b','c'],
+            tmp:1,
+            show:true
+        },
+        methods:{
+            add:function(){
+                this.content.push(this.tmp);
+            },
+            subtract:function(){
+                this.content.pop();
+            },
+            hide:function(){
+                this.show=!this.show;
+            }
+
         }
     });
 </script>
