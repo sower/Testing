@@ -22,8 +22,8 @@ jobs:
       - name: 'Send mail'
         uses: dawidd6/action-send-mail@master
         with:
-          server_address: smtp.gmail.com
-          server_port: 587
+          server_address: smtp.126.com
+          server_port: 25
           username: ${{ secrets.MAIL_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
           subject: Weather Report (${{env.REPORT_DATE}})
