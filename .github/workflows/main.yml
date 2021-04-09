@@ -1,4 +1,4 @@
-name: 'GitHub Actions Weather Bot'
+name: 'Chrome Update notification'
 
 on:
   schedule:
