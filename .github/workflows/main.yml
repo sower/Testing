@@ -22,8 +22,6 @@ jobs:
       - name: 'Get content'
         run: python script.py
       - name: 'Get Date'
-        run: cat log.txt
-      - name: 'Get Date'
         run: echo "REPORT_DATE=$(TZ=':Asia/Shanghai' date '+%Y-%m-%d %T')" >> $GITHUB_ENV
       - name: 'Send mail'
         uses: dawidd6/action-send-mail@master
