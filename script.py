@@ -24,7 +24,7 @@ def query():
 
     HEADERS = {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
     requests.post(url="https://note.ms/chrometest",
-                  headers=HEADERS, data=f'&t={chrome['version']}')
+                  headers=HEADERS, data=f"&t={chrome['version']}")
     return chrome
 
 
