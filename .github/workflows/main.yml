@@ -33,6 +33,6 @@ jobs:
           password: ${{ secrets.MAIL_PASSWORD }}
           subject: Chrome App (${{env.REPORT_DATE}})
           body: file://result.html
-          to: test@moakt.co,yulong9@outlook.com
+          to: test@moakt.co
           from: GitHub Actions
           content_type: text/html
