@@ -1,11 +1,9 @@
-name: 'GitHub Actions Weather Bot'
+name: 'Chrome Update notification'
 
 on:
   schedule:
     - cron: '0 23 * * *'
   push:
-    branches: [ master ]
-  pull_request:
     branches: [ master ]
 
 
@@ -15,19 +13,26 @@ jobs:
     steps:
       - name: 'Checkout codes'
         uses: actions/checkout@v2
-      - name: 'Get Weather'
-        run: bash ./weather.sh
+      - name: 'setup-python'
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: 'install package'
+        run: pip install requests
+      - name: 'Get content'
+        run: python script.py
       - name: 'Get Date'
         run: echo "REPORT_DATE=$(TZ=':Asia/Shanghai' date '+%Y-%m-%d %T')" >> $GITHUB_ENV
       - name: 'Send mail'
         uses: dawidd6/action-send-mail@master
+        if: hashFiles('result*')
         with:
           server_address: smtp.126.com
           server_port: 25
           username: ${{ secrets.MAIL_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
-          subject: Weather Report (${{env.REPORT_DATE}})
+          subject: Chrome App (${{env.REPORT_DATE}})
           body: file://result.html
-          to: yulong9@outlook.com
+          to: test@moakt.co
           from: GitHub Actions
           content_type: text/html
