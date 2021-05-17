@@ -40,7 +40,8 @@ jobs:
     needs: job1
     steps:
     - name: Use Node.js
-    uses: actions/setup-node@v1
-    with:
-      node-version: '12.x'
-    - run: node vue.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - name: Run js
+      run: node vue.js
