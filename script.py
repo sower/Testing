@@ -36,12 +36,12 @@ if __name__ == '__main__':
     if chrome:
         title = "Chrome Update Notification"
         content = f"""
-            <h1>Chrome had Update!<h1>
-            <h3>GUI url: {'https://tools.shuax.com/chrome/'}<h3>
-            <h3>latest version: {chrome['version']}<h3>
-            <h3>File size: {chrome['size']} MB<h3>
-            <h3>Updated: {chrome['update_time']}天前<h3>
-            <h3>download link: {chrome['download_url']}<h3>
+            <h1>Chrome had Update!</h1>
+            <h3>GUI url: {'https://tools.shuax.com/chrome/'}</h3>
+            <h3>latest version: {chrome['version']}</h3>
+            <h3>File size: {chrome['size']} MB</h3>
+            <h3>Updated: {chrome['update_time']}天前</h3>
+            <h3>download link: {chrome['download_url']}</h3>
         """
         with open(r'result.html', 'w', encoding='utf-8') as f:
             f.write(content)
