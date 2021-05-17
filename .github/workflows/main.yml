@@ -37,6 +37,7 @@ jobs:
           from: GitHub Actions
           content_type: text/html
   job2:
+    runs-on: ubuntu-latest
     needs: job1
     steps:
     - name: Use Node.js
