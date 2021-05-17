@@ -4,8 +4,8 @@ import math
 import re
 
 
-def query():
-    url = 'https://api.shuax.com/v2/chrome'
+def query(url):
+    # url = 'https://api.shuax.com/v2/chrome'
     response = requests.post(url)
     data = response.json()['win_stable_x64']
     chrome = {}
@@ -31,7 +31,8 @@ def query():
 
 
 if __name__ == '__main__':
-    chrome = query()
+    url = input()
+    chrome = query(url)
     if chrome:
         title = "Chrome Update Notification"
         content = f"""

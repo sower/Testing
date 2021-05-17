@@ -20,7 +20,7 @@ jobs:
       - name: 'install package'
         run: pip install requests
       - name: 'Get content'
-        run: python script.py
+        run: ${{ secrets.API_URL }} | python script.py
       - name: 'Get Date'
         run: echo "REPORT_DATE=$(TZ=':Asia/Shanghai' date '+%Y-%m-%d %T')" >> $GITHUB_ENV
       - name: 'Send mail'
