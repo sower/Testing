@@ -38,6 +38,9 @@ jobs:
           content_type: text/html
   job2:
     needs: job1
-    runs:
-      using: 'node12'
-      main: 'index.js'
+    steps:
+      - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+      - run: node vue.js
