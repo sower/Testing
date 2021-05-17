@@ -8,7 +8,7 @@ on:
 
 
 jobs:
-  bot:
+  job1:
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout codes'
@@ -36,3 +36,8 @@ jobs:
           to: yulong9@outlook.com
           from: GitHub Actions
           content_type: text/html
+  job2:
+    needs: job1
+    runs:
+      using: 'node12'
+      main: 'index.js'
