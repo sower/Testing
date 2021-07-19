@@ -1,6 +1,53 @@
-<h1>Chrome had Update!</h1>
-<h3>GUI url: {'https://tools.shuax.com/chrome/'}</h3>
-<h3>latest version: {chrome['version']}</h3>
-<h3>File size: {chrome['size']} MB</h3>
-<h3>Updated: {chrome['update_time']}天前</h3>
-<h3>download link: {chrome['download_url']}</h3>
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <title>Web</title>
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" /> -->
+    <link rel="stylesheet" type="text/css" href="static/style.css" />
+</head>
+
+<body class="HolyGrail">
+
+    <header> Multi-translation </header>
+    <div class="container">
+        <nav>
+            <h2>历史记录</h2>
+            <ul>
+                <li onclick="insert(this)">hare</li>
+            </ul>
+        </nav>
+        <main>
+            <div class="wraper">
+                <div><textarea id="query" placeholder="Please input text" required spellcheck="true"
+                        wrap="hard">rain</textarea></div>
+
+                <div><button type="submit" id='switch' onclick="translater()">Translate</button></div>
+
+                <div id="result">
+                    <ul>
+                        <li><label for="label">Google</label>
+                            <input type="text">
+                            <button type="button" onclick="copy(this)">Copy</button>
+                        </li>
+                        <li><label for="label">Youdao</label>
+                            <input type="text">
+                            <button type="button" onclick="copy(this)">Copy</button>
+                        </li>
+                        <li><label for="label">Label</label>
+                            <input type="text" disabled>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+        <aside>aside</aside>
+    </div>
+
+    <footer>www.sth.com</footer>
+    <script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+
+</html>

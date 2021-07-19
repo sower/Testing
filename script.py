@@ -1,47 +1,44 @@
 import requests
-import time
-import math
+import html
 import re
+import json
 
 
-def query(url):
-    # url = 'https://api.shuax.com/v2/chrome'
-    response = requests.post(url)
-    data = response.json()['win_stable_x64']
-    chrome = {}
-    chrome['update_time'] = math.floor(
-        (time.time()*1000 - data['time'])/86400000)
-    chrome['size'] = round(data['size'] / 1024 ** 2, 2)
-    chrome['version'] = data['version']
-    chrome['download_url'] = data['urls'][4]
+def query(key):
+    url = f'https://www.ghxi.com/{key}.html'
+    response = requests.get(url)
+    data = {}
+    data[key] = re.search('<title>(.+)</title>', response.text).group(1)
 
     response = requests.get('https://note.ms/chrometest')
-    current = re.search(
+
+    json_str = re.search(
         '<textarea class="content">(.+)</textarea>', response.text).group(1)
 
-    if current == chrome['version']:
+    store = json.loads(html.unescape(json_str))
+
+    if store.get(key, None) == data[key]:
         print('false')
         return False
 
+    store[key] = data[key]
     HEADERS = {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
     requests.post(url="https://note.ms/chrometest",
-                  headers=HEADERS, data=f"&t={chrome['version']}")
+                  headers=HEADERS,
+                  data=f"&t={json.dumps(store,ensure_ascii=False,sort_keys=True)}".encode())
     print('true')
-    return chrome
+    return store
 
 
 if __name__ == '__main__':
-    url = input()
-    chrome = query(url)
-    if chrome:
+    key = input()
+    data = query(key)
+    if data:
         title = "Chrome Update Notification"
         content = f"""
             <h1>Chrome had Update!</h1>
-            <h3>GUI url: {'https://tools.shuax.com/chrome/'}</h3>
-            <h3>latest version: {chrome['version']}</h3>
-            <h3>File size: {chrome['size']} MB</h3>
-            <h3>Updated: {chrome['update_time']}天前</h3>
-            <h3>download link: {chrome['download_url']}</h3>
+            <h3>{data[key]}</h3>
+            <h3>GUI url: https://www.ghxi.com/{key}.html</h3>
         """
         with open(r'result.html', 'w', encoding='utf-8') as f:
             f.write(content)

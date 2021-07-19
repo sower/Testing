@@ -1,9 +1,15 @@
 'use strict'
 
+import { createApp } from 'vue'
+import App from './App.vue'
+import router from './router'
+import store from './store'
 
-let a = [1, 2, 3];
+import Antd from "ant-design-vue";
+import "ant-design-vue/dist/antd.css";
 
-for (let e of a)
-    console.log(e*2);
-console.log(' --- ');
-a.forEach((e) => console.log(e * 3));
+const app = createApp(App);
+app.config.productionTip = false;
+
+app.use(store).use(router).use(Antd).mount('#app')
+
