@@ -1,4 +1,4 @@
-name: 'Chrome Update notification'
+name: 'Application Update notification'
 
 on:
   schedule:
