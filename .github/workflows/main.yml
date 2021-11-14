@@ -20,7 +20,7 @@ jobs:
       - name: 'install package'
         run: pip install requests
       - name: 'Get content'
-        run: echo ${{ secrets.API_URL }} | python script.py
+        run: echo ${{ secrets.BIN_ID }} | python script.py
       - name: 'Get Date'
         run: echo "REPORT_DATE=$(TZ=':Asia/Shanghai' date '+%Y-%m-%d %T')" >> $GITHUB_ENV
       - name: 'Send mail'
@@ -47,4 +47,4 @@ jobs:
       with:
         node-version: '12.x'
     - name: Run js
-      run: node vue.js
+      run: node bookmarklet.js

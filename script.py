@@ -1,44 +1,78 @@
 import requests
-import html
-import re
 import json
+import re
 
 
-def query(key):
-    url = f'https://www.ghxi.com/{key}.html'
-    response = requests.get(url)
-    data = {}
-    data[key] = re.search('<title>(.+)</title>', response.text).group(1)
+class CloudJson(object):
+    host = 'https://json.extendsclass.com'
+    session = requests.Session()
+    response = None
 
-    response = requests.get('https://note.ms/chrometest')
+    def __init__(self, security_key: str = None):
+        if security_key:
+            self.session.headers.update({"Security-key": security_key})
 
-    json_str = re.search(
-        '<textarea class="content">(.+)</textarea>', response.text).group(1)
+    # decorator
+    def log(func):
+        def wrapper(self, *args, **kwargs):
+            print('running', func.__name__)
+            res = func(self, *args, **kwargs)
+            if self.response.status_code >= 400:
+                print('request error')
+            else:
+                print('successfully request with', self.response.request.body)
 
-    store = json.loads(html.unescape(json_str))
+            print(json.dumps(res, indent=2))
+            return res
+        return wrapper
 
-    if store.get(key, None) == data[key]:
-        print('false')
+    @log
+    def obtain(self, id: str):
+        self.response = self.session.get(f'{self.host}/bin/{id}')
+        return self.response.json()
+
+    @log
+    def update(self, id: str, data):
+        self.response = self.session.put(f'{self.host}/bin/{id}', data=data)
+        return self.response.json()
+
+    @log
+    def partially_update(self, id: str, data):
+        headers = {"Content-type": "application/json-patch+json"}
+        self.response = self.session.patch(f'{self.host}/bin/{id}',
+                                           data=data, headers=headers)
+        return self.response.json()
+
+
+def query(id):
+    response = requests.get('https://www.ghxi.com/chrome.html')
+    chrome = re.search('<title>(.+)</title>', response.text).group(1)
+
+    cj = CloudJson('ec')
+    software = cj.obtain(id)['software']
+
+    if software.get('chrome', None) == chrome:
+        print('No found new version')
         return False
 
-    store[key] = data[key]
-    HEADERS = {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
-    requests.post(url="https://note.ms/chrometest",
-                  headers=HEADERS,
-                  data=f"&t={json.dumps(store,ensure_ascii=False,sort_keys=True)}".encode())
-    print('true')
-    return store
+    data = f'[{{"op":"add","path":"/software/chrome","value":"{chrome}"}}]'
+    r = cj.partially_update(id, data.encode('utf-8'))
+    return chrome
 
 
 if __name__ == '__main__':
     key = input()
-    data = query(key)
-    if data:
-        title = "Chrome Update Notification"
+    try:
+        ver = query(key)
+    except Exception as e:
+        print(e)
+        ver = e
+
+    if ver:
         content = f"""
-            <h1>Chrome had Update!</h1>
-            <h3>{data[key]}</h3>
-            <h3>GUI url: https://www.ghxi.com/{key}.html</h3>
+            <h1> Chrome Update Notification </h1>
+            <h3>{ver}</h3>
+            <h3>GUI url: https://www.ghxi.com/chrome.html</h3>
         """
         with open(r'result.html', 'w', encoding='utf-8') as f:
             f.write(content)
